@@ -4,7 +4,6 @@ function base_url($url = '')
 {
     $base_ssl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
     $base_host = $_SERVER['HTTP_HOST'];
-    $htdocs_folder = '';
     $request_uri = ($url != '') ? '/' . $url : '';
     if (WEB_HOSTING) {
         return $base_ssl . '://' . $base_host . $request_uri;
@@ -19,7 +18,7 @@ function redirect($url = '', $base_url = true)
     header('location: ' . $direct_to);
 }
 
-function Check_url($url, $auto_redirect = false)
+function check_url($url, $auto_redirect = false)
 {
     $url_split = explode('://', $url);
     if (WEB_HOSTING && $url_split[0] != 'https') {

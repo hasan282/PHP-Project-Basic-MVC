@@ -1,6 +1,6 @@
 <?php
 
-class Cookie
+class cookie
 {
     public static function set($data = [], $day = 1)
     {

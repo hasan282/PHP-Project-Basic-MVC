@@ -1,6 +1,6 @@
 <?php
 
-class Session
+class session
 {
     private $session_name;
     private $result;

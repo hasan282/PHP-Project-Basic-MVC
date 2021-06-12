@@ -1,30 +1,30 @@
 <?php
 
-class FileUpload
+class upload
 {
-    private $FileExtension = array();
+    private $file_extension = array();
     private $FileLocation;
     private $FileSizeLimit;
     private $ErrorMessage;
     private $UploadResult;
 
-    public function __construct($Location = IMG_LOCATION, $Extension = FILE_EXTENSION)
+    public function __construct($location = IMG_LOCATION, $extension = FILE_EXTENSION)
     {
-        $this->FileLocation = $Location . '/';
-        $this->FileExtension = explode('|', $Extension);
+        $this->FileLocation = $location . '/';
+        $this->file_extension = explode('|', $extension);
         $this->FileSizeLimit = LIMIT_FILESIZE;
     }
 
-    public function UploadFile($File)
+    public function upload($File)
     {
         $FileSize = $this->_FileSize($File);
-        $FileExtension = $this->_CheckExtension($File);
+        $file_extension = $this->_CheckExtension($File);
         if ($FileSize == 0) {
             $this->UploadResult = array('status' => 1, 'file' => null);
         } else {
-            $NewName = 'IMG_' . date('YmdHis') . '.' . $FileExtension['ext'];
+            $NewName = 'IMG_' . date('YmdHis') . '.' . $file_extension['ext'];
             $FileTarget = $this->FileLocation . $NewName;
-            $ErrorCheck = $this->_UploadErrorCheck($FileTarget, $FileSize, $FileExtension['status']);
+            $ErrorCheck = $this->_UploadErrorCheck($FileTarget, $FileSize, $file_extension['status']);
             if ($ErrorCheck) {
                 $this->UploadResult = array('status' => 0, 'error' => $this->ErrorMessage);
             } else {
@@ -63,7 +63,7 @@ class FileUpload
 
     public function ReplaceFile($OldFile, $NewFile)
     {
-        $UpResult = $this->UploadFile($NewFile);
+        $UpResult = $this->upload($NewFile);
         if ($UpResult['status'] > 0) {
             if ($UpResult['file'] != null) {
                 $ReplaceResult = array('status' => 1, 'file' => $UpResult['file']);
@@ -84,15 +84,15 @@ class FileUpload
 
     private function _CheckExtension($File)
     {
-        $ExplodeFileName = explode('.', $File['name']);
-        $Extension = strtolower(end($ExplodeFileName));
-        $TrueExtension = false;
-        foreach ($this->FileExtension as $Ext) {
-            if ($Ext == $Extension) {
-                $TrueExtension = true;
+        $name_split = explode('.', $File['name']);
+        $extension = strtolower(end($name_split));
+        $is_true_ext = false;
+        foreach ($this->file_extension as $ext) {
+            if ($ext == $extension) {
+                $is_true_ext = true;
             }
         }
-        $ReturnExtension = array('status' => $TrueExtension, 'ext' => $Extension);
-        return $ReturnExtension;
+        $result = array('status' => $is_true_ext, 'ext' => $extension);
+        return $result;
     }
 }

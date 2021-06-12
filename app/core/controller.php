@@ -22,4 +22,9 @@ class controller
         require_once 'app/helper/' . $helper . '.php';
         return new $helper($param);
     }
+
+    protected function session($key = null)
+    {
+        return new session($key);
+    }
 }
