@@ -4,6 +4,6 @@ class home extends Controller
 {
     public function index()
     {
-        phpinfo();
+        var_dump($_SERVER);
     }
 }
